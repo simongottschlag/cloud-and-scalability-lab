@@ -30,6 +30,6 @@ jobs:
           push: true
           context: .
           file: ./Dockerfile
-          tags:
-            - ${{ secrets.ACR_HOSTNAME }}/${{ secrets.CONTAINER_NAME }}:${{ steps.prep.outputs.VERSION }}
-            - ${{ secrets.ACR_HOSTNAME }}/${{ secrets.CONTAINER_NAME }}:latest
+          tags: |
+            ${{ secrets.ACR_HOSTNAME }}/${{ secrets.CONTAINER_NAME }}:${{ steps.prep.outputs.VERSION }}
+            ${{ secrets.ACR_HOSTNAME }}/${{ secrets.CONTAINER_NAME }}:latest

@@ -30,8 +30,8 @@ resource "azurerm_app_service_plan" "this" {
   reserved            = true
 
   sku {
-    tier = "Standard"
-    size = "S2"
+    tier = "Basic"
+    size = "B1"
   }
 }
 

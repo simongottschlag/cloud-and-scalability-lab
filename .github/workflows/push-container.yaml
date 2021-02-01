@@ -1,4 +1,4 @@
-name: Push Container to Azure Container Registry
+name: Push container to Azure Container Registry
 
 on: push
 
@@ -8,6 +8,14 @@ jobs:
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
+      - name: Prepare
+        id: prep
+        run: |
+          VERSION=sha-${GITHUB_SHA::8}
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF/refs\/tags\//}
+          fi
+          echo ::set-output name=VERSION::${VERSION}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to GitHub Container Registry
@@ -22,4 +30,6 @@ jobs:
           push: true
           context: .
           file: ./Dockerfile
-          tags: ${{ secrets.ACR_HOSTNAME }}/${{ secrets.CONTAINER_NAME }}:latest
+          tags:
+            - ${{ secrets.ACR_HOSTNAME }}/${{ secrets.CONTAINER_NAME }}:${{ steps.prep.outputs.VERSION }}
+            - ${{ secrets.ACR_HOSTNAME }}/${{ secrets.CONTAINER_NAME }}:latest

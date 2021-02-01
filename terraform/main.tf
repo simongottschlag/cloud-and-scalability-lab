@@ -30,8 +30,8 @@ resource "azurerm_app_service_plan" "this" {
   reserved            = true
 
   sku {
-    tier = "Basic"
-    size = "B1"
+    tier = "Standard"
+    size = "S2"
   }
 }
 
@@ -43,14 +43,5 @@ resource "azurerm_app_service" "this" {
 
   site_config {
     linux_fx_version = "NODE|14-lts"
-    # scm_type = "GitHub"
-  }
-
-  source_control {
-    repo_url           = "https://github.com/simongottschlag/cloud-and-scalability-lab"
-    branch             = "main"
-    manual_integration = false
-    rollback_enabled   = false
-    use_mercurial      = false
   }
 }

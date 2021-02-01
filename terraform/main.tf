@@ -12,9 +12,9 @@ provider "azurerm" {
 }
 
 locals {
-  resource_group_name = "rg-${var.environment}-${var.location}-${var.name}"
+  resource_group_name   = "rg-${var.environment}-${var.location}-${var.name}"
   app_service_plan_name = "asp-${var.environment}-${var.location}-${var.name}"
-  app_service_name = "wa-${var.environment}-${var.location}-${var.name}"
+  app_service_name      = "wa-${var.environment}-${var.location}-${var.name}"
 }
 
 resource "azurerm_resource_group" "this" {
@@ -47,14 +47,14 @@ resource "azurerm_app_service" "this" {
   }
 
   source_control {
-    repo_url = "https://github.com/simongottschlag/cloud-and-scalability-lab"
+    repo_url           = "https://github.com/simongottschlag/cloud-and-scalability-lab"
     branch             = "main"
     manual_integration = false
     rollback_enabled   = false
     use_mercurial      = false
   }
 
-  app_settings                      = {
+  app_settings = {
     "SCM_SCRIPT_GENERATOR_ARGS"    = "--node"
     "WEBSITE_NODE_DEFAULT_VERSION" = "~14"
   }

@@ -65,6 +65,7 @@ resource "azurerm_app_service" "this" {
     "DOCKER_REGISTRY_SERVER_URL"          = "https://${azurerm_container_registry.this.login_server}"
     "DOCKER_REGISTRY_SERVER_USERNAME"     = azurerm_container_registry.this.admin_username
     "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.this.admin_password
+    "DOCKER_ENABLE_CI"                    = "TRUE"
   }
 
   lifecycle {

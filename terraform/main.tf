@@ -13,9 +13,49 @@ provider "azurerm" {
 
 locals {
   resource_group_name = "rg-${var.environment}-${var.location}-${var.name}"
+  app_service_plan_name = "asp-${var.environment}-${var.location}-${var.name}"
+  app_service_name = "wa-${var.environment}-${var.location}-${var.name}"
 }
 
 resource "azurerm_resource_group" "this" {
   name     = local.resource_group_name
   location = var.location_long
+}
+
+resource "azurerm_app_service_plan" "this" {
+  name                = local.app_service_plan_name
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
+  kind                = "Linux"
+  reserved            = true
+
+  sku {
+    tier = "Basic"
+    size = "B1"
+  }
+}
+
+resource "azurerm_app_service" "this" {
+  name                = local.app_service_name
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
+  app_service_plan_id = azurerm_app_service_plan.this.id
+
+  site_config {
+    linux_fx_version = "NODE|14-lts"
+    # scm_type = "GitHub"
+  }
+
+  source_control {
+    repo_url = "https://github.com/simongottschlag/cloud-and-scalability-lab"
+    branch             = "main"
+    manual_integration = false
+    rollback_enabled   = false
+    use_mercurial      = false
+  }
+
+  app_settings                      = {
+    "SCM_SCRIPT_GENERATOR_ARGS"    = "--node"
+    "WEBSITE_NODE_DEFAULT_VERSION" = "~14"
+  }
 }

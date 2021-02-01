@@ -95,9 +95,6 @@ resource "azurerm_container_registry_webhook" "this" {
   status      = "enabled"
   scope       = "${var.container_name}:latest"
   actions     = ["push"]
-  custom_headers = {
-    "Content-Type" = "application/json"
-  }
 }
 
 resource "github_actions_secret" "acr_username" {

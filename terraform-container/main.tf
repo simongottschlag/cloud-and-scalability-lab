@@ -66,6 +66,8 @@ resource "azurerm_app_service" "this" {
     "DOCKER_REGISTRY_SERVER_USERNAME"     = azurerm_container_registry.this.admin_username
     "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.this.admin_password
     "DOCKER_ENABLE_CI"                    = "TRUE"
+    "WEBSITES_PORT"                       = "8080"
+    "PORT"                                = "8080"
   }
 
   lifecycle {

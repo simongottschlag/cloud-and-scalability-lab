@@ -63,6 +63,8 @@ resource "azurerm_app_service" "this" {
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "DOCKER_REGISTRY_SERVER_URL"          = "https://${azurerm_container_registry.this.login_server}"
+    "DOCKER_REGISTRY_SERVER_USERNAME"     = azurerm_container_registry.this.admin_username
+    "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.this.admin_password
   }
 
   lifecycle {
@@ -78,12 +80,6 @@ resource "azurerm_container_registry" "this" {
   location            = azurerm_resource_group.this.location
   sku                 = "Basic"
   admin_enabled       = true
-}
-
-resource "azurerm_role_assignment" "this" {
-  scope                = azurerm_container_registry.this.id
-  role_definition_name = "AcrPull"
-  principal_id         = azurerm_app_service.this.identity[0].principal_id
 }
 
 resource "azurerm_container_registry_webhook" "this" {

@@ -53,9 +53,4 @@ resource "azurerm_app_service" "this" {
     rollback_enabled   = false
     use_mercurial      = false
   }
-
-  app_settings = {
-    "SCM_SCRIPT_GENERATOR_ARGS"    = "--node"
-    "WEBSITE_NODE_DEFAULT_VERSION" = "~14"
-  }
 }

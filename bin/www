@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('node-webapp:server');
+var debug = require('debug')('cloud-and-scalability-lab:server');
 var http = require('http');
 
 /**

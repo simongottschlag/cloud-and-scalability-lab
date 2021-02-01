@@ -84,14 +84,14 @@ resource "azurerm_container_registry" "this" {
 }
 
 resource "azurerm_container_registry_webhook" "this" {
-  name                = replace(azurerm_app_service.this.name, "-", "")
+  name                = "webapp${replace(azurerm_app_service.this.name, "-", "")}"
   registry_name       = azurerm_container_registry.this.name
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
 
   service_uri = "https://${azurerm_app_service.this.site_credential[0].username}:${azurerm_app_service.this.site_credential[0].password}@${azurerm_app_service.this.name}.scm.azurewebsites.net/docker/hook"
   status      = "enabled"
-  scope       = "${var.container_name}:*"
+  scope       = "${var.container_name}:latest"
   actions     = ["push"]
   custom_headers = {
     "Content-Type" = "application/json"

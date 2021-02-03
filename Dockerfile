@@ -14,6 +14,11 @@ COPY public ./public
 COPY routes ./routes
 copy views ./views
 
+RUN apt-get update && apt-get install -y \
+  tini \
+  && rm -rf /var/lib/apt/lists/*
+
 USER node
 
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD [ "node", "./bin/www" ]
